@@ -1,0 +1,132 @@
+import grafica.*;
+
+PImage img;
+int y;
+int x;
+float plataformaY;
+float plataformaX;
+float plataformaWidth;
+float playerX;
+float playerY;
+float VplayerY;
+float gravidade;
+float VplayerX;
+float plataforma;
+float arrayPlataformasX[];
+float arrayPlataformasY[];
+int QuantidadeDePlataformas;
+float PosicaoY;
+float CameraX;
+float CameraY;
+float sizeWidth;
+float sizeHeight;
+boolean GameOver;
+
+void setup() {
+  size(600,800);
+  img = loadImage("ceu.jpg");
+  plataformaX = 200;
+  plataformaY=500;
+  plataformaWidth = 300;
+  playerX = 250;
+  playerY = 0;
+  VplayerY = 0;
+  VplayerX = 0;
+  gravidade = 0.3;
+  QuantidadeDePlataformas = 1000;
+  PosicaoY = 200;
+  CameraX = 0;
+  CameraY = 0;
+  sizeWidth = 600;
+  sizeHeight = 800;
+  
+  arrayPlataformasX = new float[QuantidadeDePlataformas];
+  
+  arrayPlataformasY = new float[QuantidadeDePlataformas];
+
+  for(int i = 0; i < QuantidadeDePlataformas; i = i+1 ){
+    arrayPlataformasX[i] = random(0,600);
+    PosicaoY = PosicaoY + 500; 
+    arrayPlataformasY[i] = PosicaoY;   
+  }
+  
+
+}
+
+
+
+void draw() {
+  background(img);
+//persona
+
+    translate(-playerX, -playerY, 0);
+  
+    strokeWeight(20);
+    ellipse(playerX, playerY,40,40);
+    VplayerY = VplayerY + gravidade;
+    if(VplayerY >= 8 ){
+      VplayerY = 8;
+    }
+    playerY = playerY + VplayerY;
+    playerX = playerX+VplayerX;
+ if(playerY+40 <= plataformaY+10  && playerY+40 >= plataformaY-10 && playerX-40<= plataformaX + plataformaWidth && playerX + 40 >= plataformaX  ){
+   VplayerY = -14;
+   playerY = playerY-1;
+
+  }
+  
+    //plataforma  
+
+  {strokeWeight(20);
+  stroke(random(0,255), random (0,204), random (0,255));
+   line( plataformaX , plataformaY,(plataformaX+plataformaWidth), plataformaY);
+  }
+    for(int i = 0; i < QuantidadeDePlataformas; i = i+1 ){
+      
+    line( arrayPlataformasX[i] , arrayPlataformasY[i],(arrayPlataformasX[i]+plataformaWidth), arrayPlataformasY[i]);
+    
+    }
+CameraX = playerX - sizeWidth/2.0;
+CameraY = playerY - sizeHeight/2.0;
+
+for (int i = 0; i < QuantidadeDePlataformas; i = i+1 ){
+line(arrayPlataformasX[i] - CameraX, arrayPlataformasY[i] - CameraY, arrayPlataformasX[i] + plataformaWidth - CameraX, arrayPlataformasY[i] - CameraY);
+}
+if(GameOver)
+{
+  
+}
+
+else{
+  
+if(playerY = -1){
+GameOver = True;
+
+}
+}
+
+
+}
+void keyPressed(){
+ 
+   if(key =='a' || key == 'A'){
+     VplayerX = -8;
+   
+     
+ }
+   if(key =='d' || key == 'D'){
+     VplayerX = +8;
+     
+ }
+}
+ 
+void keyReleased(){
+  if(key == 'a' || key == 'A' || key == 'd' || key == 'D' ){
+    VplayerX = 0;
+    
+  }
+ 
+}
+void line() {
+
+} 
